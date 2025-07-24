@@ -18,10 +18,13 @@ class KategoriController extends Controller
                 })
                 ->addColumn('aksi', function ($row) {
                     return '
-                        <form method="POST" action="' . route('kategori.destroy', $row->id) . '" onsubmit="return confirm(\'Yakin?\')">
+                        <button onclick="deleteKategori(' . $row->id . ')" style="background-color: red; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
+                            Hapus
+                        </button>
+                        <form id="form-delete-' . $row->id . '" method="POST" action="' . route('kategori.destroy', $row->id) . '" style="display:none;">
                             ' . csrf_field() . method_field('DELETE') . '
-                            <button class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
-                        </form>';
+                        </form>
+                    ';
                 })
                 ->rawColumns(['aksi'])
                 ->make(true);
