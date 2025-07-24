@@ -14,11 +14,12 @@ return new class extends Migration {
             $table->id();
             $table->string('kode_barang', 20)->unique();
             $table->string('nama_barang', 100);
-            $table->string('kategori', 50)->nullable();
             $table->string('satuan', 20)->nullable();
             $table->decimal('harga_beli', 12, 2)->nullable();
             $table->decimal('harga_jual', 12, 2)->nullable();
             $table->integer('stok')->default(0);
+
+            $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade');
             $table->timestamps();
         });
     }
