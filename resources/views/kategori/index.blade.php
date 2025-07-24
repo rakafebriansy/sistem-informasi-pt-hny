@@ -61,6 +61,36 @@
             </form>
         </div>
     </div>
+
+    <!-- Modal Edit -->
+    <div id="modal-edit" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Edit Kategori</h2>
+                <button onclick="toggleEditModal()"
+                    class="text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
+            </div>
+            <form id="form-edit" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="mb-4">
+                    <label class="block text-sm text-gray-600 mb-1">Nama Kategori</label>
+                    <input type="text" name="nama" id="edit-nama"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="toggleEditModal()"
+                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -91,6 +121,19 @@
                     document.getElementById('form-delete-' + id).submit();
                 }
             });
+        }
+
+        function toggleEditModal() {
+            const modal = document.getElementById('modal-edit');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function openEditModal(id, nama) {
+            toggleEditModal();
+            document.getElementById('edit-nama').value = nama;
+            const form = document.getElementById('form-edit');
+            form.action = `/kategori/${id}`;
         }
 
         $(document).ready(function() {

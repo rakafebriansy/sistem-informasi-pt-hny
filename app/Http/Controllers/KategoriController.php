@@ -18,13 +18,19 @@ class KategoriController extends Controller
                 })
                 ->addColumn('aksi', function ($row) {
                     return '
-                        <button onclick="deleteKategori(' . $row->id . ')" style="background-color: red; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
-                            Hapus
-                        </button>
-                        <form id="form-delete-' . $row->id . '" method="POST" action="' . route('kategori.destroy', $row->id) . '" style="display:none;">
-                            ' . csrf_field() . method_field('DELETE') . '
-                        </form>
-                    ';
+                        <div class="flex gap-2">
+                            <button onclick="openEditModal(' . $row->id . ', \'' . e($row->nama) . '\')" style="background-color: #FFCA2C; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
+                                Edit
+                            </button>
+
+                            <button onclick="deleteKategori(' . $row->id . ')" style="background-color: #BB2D3B; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
+                                Hapus
+                            </button>
+
+                            <form id="form-delete-' . $row->id . '" method="POST" action="' . route('kategori.destroy', $row->id) . '" style="display:none;">
+                                ' . csrf_field() . method_field('DELETE') . '
+                            </form>
+                        </div>';
                 })
                 ->rawColumns(['aksi'])
                 ->make(true);
@@ -43,6 +49,18 @@ class KategoriController extends Controller
 
         return redirect()->back()->with('success', 'Kategori berhasil ditambahkan');
     }
+
+    public function update(Request $request, Kategori $kategori)
+    {
+        $request->validate([
+            'nama' => 'required|unique:kategoris,nama,' . $kategori->id,
+        ]);
+
+        $kategori->update(['nama' => $request->nama]);
+
+        return redirect()->back()->with('success', 'Kategori berhasil diupdate');
+    }
+
 
     public function destroy($id)
     {
