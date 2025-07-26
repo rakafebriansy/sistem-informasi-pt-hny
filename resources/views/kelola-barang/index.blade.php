@@ -16,13 +16,13 @@
         <table id="barang-table" class="min-w-full">
             <thead class="bg-gray-100 text-left">
                 <tr>
-                    <th>ID</th>
+                    <th>No</th>
                     <th>Kode</th>
                     <th>Nama</th>
                     <th>Kategori</th>
                     <th>Satuan</th>
-                    <th>Harga</th>
                     <th>Stok</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
         </table>
@@ -36,23 +36,42 @@
                 @csrf
                 <div class="mb-3">
                     <label class="block text-sm">Kode Barang</label>
-                    <input type="text" name="kode_barang" class="w-full border rounded px-2 py-1" required>
+                    <input type="text" placeholder="Masukkan nama barang" name="kode_barang"
+                        class="w-full border rounded px-2 py-1" required>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm">Nama Barang</label>
-                    <input type="text" name="nama_barang" class="w-full border rounded px-2 py-1" required>
+                    <input type="text" placeholder="Masukkan nama barang" name="nama_barang"
+                        class="w-full border rounded px-2 py-1" required>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm">Kategori</label>
-                    <input type="text" name="kategori" class="w-full border rounded px-2 py-1">
+                    <select name="kategori_id" class="w-full border rounded px-2 py-1">
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach ($kategoriList as $kategori)
+                            <option value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm">Satuan</label>
-                    <input type="text" name="satuan" class="w-full border rounded px-2 py-1">
+                    <input type="text" placeholder="Masukkan nama satuan" name="satuan"
+                        class="w-full border rounded px-2 py-1">
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm">Harga Jual</label>
-                    <input type="number" name="harga_jual" class="w-full border rounded px-2 py-1" required>
+                    <input type="number" placeholder="Masukkan harga jual" name="harga_jual"
+                        class="w-full border rounded px-2 py-1" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm">Harga Beli</label>
+                    <input type="number" placeholder="Masukkan harga beli" name="harga_beli"
+                        class="w-full border rounded px-2 py-1" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm">Stok</label>
+                    <input type="number" placeholder="Masukkan jumlah stok" name="stok"
+                        class="w-full border rounded px-2 py-1" required>
                 </div>
                 <div class="flex justify-end">
                     <button type="button" onclick="toggleModal()" class="mr-2 px-4 py-2 rounded bg-gray-300">Batal</button>
@@ -79,8 +98,10 @@
                 serverSide: true,
                 ajax: '{{ route('barang.index') }}',
                 columns: [{
-                        data: 'id',
-                        name: 'id'
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'kode_barang',
@@ -91,22 +112,36 @@
                         name: 'nama_barang'
                     },
                     {
-                        data: 'kategori',
-                        name: 'kategori'
+                        data: 'kategori_nama',
+                        name: 'kategori_nama'
                     },
                     {
                         data: 'satuan',
-                        name: 'satuan'
-                    },
-                    {
-                        data: 'harga_jual',
-                        name: 'harga_jual'
+                        name: 'satuan',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'stok',
-                        name: 'stok'
+                        name: 'stok',
+                        searchable: false,
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi',
+                        orderable: false,
+                        searchable: false
                     }
-                ]
+                ],
+                language: {
+                    emptyTable: "Tidak ada data yang tersedia",
+                    zeroRecords: "Data tidak ditemukan",
+                    processing: "Memproses...",
+                    search: "Cari:",
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                }
             });
         });
     </script>

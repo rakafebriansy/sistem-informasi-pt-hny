@@ -22,7 +22,7 @@
                     Transaksi</a>
                 <a href="{{ route('barang.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📦 Kelola
                     Barang</a>
-                <a href="{{ route('kategori.index') }}" class="hover:bg-gray-700 p-2 rounded">🏷️ Kategori</a>
+                <a href="{{ route('kategori.index') }}" class="hover:bg-gray-700 p-2 rounded">🏷️ Kelola Kategori</a>
             </nav>
         </aside>
 
@@ -34,6 +34,31 @@
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @stack('scripts')
+
+        @if ($errors->any())
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan',
+                        text: '{{ $errors->first() }}',
+                    });
+                });
+            </script>
+        @endif
+
+        @if (session('success'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: '{{ session('success') }}',
+                    });
+                });
+            </script>
+        @endif
+
     </div>
 
 </body>

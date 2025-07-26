@@ -25,7 +25,7 @@
         <table id="kategori-table" class="min-w-full text-sm text-left">
             <thead class="bg-gray-100 text-gray-700 uppercase">
                 <tr>
-                    <th class="px-4 py-3 border-b">ID</th>
+                    <th class="px-4 py-3 border-b">No</th>
                     <th class="px-4 py-3 border-b">Nama</th>
                     <th class="px-4 py-3 border-b">Dibuat</th>
                     <th class="px-4 py-3 border-b">Aksi</th>
@@ -45,7 +45,7 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block text-sm text-gray-600 mb-1">Nama Kategori</label>
-                    <input type="text" name="nama" placeholder="Contoh: Elektronik"
+                    <input type="text" name="nama" placeholder="Masukkan nama kategori"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
@@ -98,7 +98,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
-
     <script>
         function toggleModal() {
             const modal = document.getElementById('modal');
@@ -142,8 +141,10 @@
                 serverSide: true,
                 ajax: '{{ route('kategori.index') }}',
                 columns: [{
-                        data: 'id',
-                        name: 'id'
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'nama',
@@ -151,7 +152,8 @@
                     },
                     {
                         data: 'created_at',
-                        name: 'created_at'
+                        name: 'created_at',
+                        searchable: false
                     },
                     {
                         data: 'aksi',
@@ -159,7 +161,16 @@
                         orderable: false,
                         searchable: false
                     }
-                ]
+                ],
+                language: {
+                    emptyTable: "Tidak ada data yang tersedia",
+                    zeroRecords: "Data tidak ditemukan",
+                    processing: "Memproses...",
+                    search: "Cari:",
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                }
             });
         });
     </script>
