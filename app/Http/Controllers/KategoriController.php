@@ -14,9 +14,6 @@ class KategoriController extends Controller
             $data = Kategori::select(['id', 'nama', 'created_at']);
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->editColumn('created_at', function ($row) {
-                    return \Carbon\Carbon::parse($row->created_at)->translatedFormat('d F Y H:i');
-                })
                 ->addColumn('aksi', function ($row) {
                     return '
                         <div class="flex gap-2">
@@ -42,7 +39,7 @@ class KategoriController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'nama' => 'required|unique:kategoris,nama',
         ]);
 

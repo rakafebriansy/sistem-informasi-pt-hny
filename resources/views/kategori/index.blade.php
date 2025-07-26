@@ -13,13 +13,6 @@
         </button>
     </div>
 
-    <!-- Alert -->
-    @if (session('success'))
-        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <!-- Tabel -->
     <div class="overflow-x-auto bg-white rounded-lg shadow p-4">
         <table id="kategori-table" class="min-w-full text-sm text-left">
@@ -27,7 +20,6 @@
                 <tr>
                     <th class="px-4 py-3 border-b">No</th>
                     <th class="px-4 py-3 border-b">Nama</th>
-                    <th class="px-4 py-3 border-b">Dibuat</th>
                     <th class="px-4 py-3 border-b">Aksi</th>
                 </tr>
             </thead>
@@ -209,11 +201,6 @@
                     {
                         data: 'nama',
                         name: 'nama'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at',
-                        searchable: false
                     },
                     {
                         data: 'aksi',

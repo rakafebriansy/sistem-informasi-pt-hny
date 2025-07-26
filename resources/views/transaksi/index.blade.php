@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-4">Dashboard Kasir</h1>
+        <h1 class="text-3xl font-bold mb-4">Transaksi</h1>
 
         <!-- Form Tambah Barang ke Keranjang -->
         <div class="bg-white p-4 shadow rounded mb-4">

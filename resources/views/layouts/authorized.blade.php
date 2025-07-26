@@ -18,7 +18,7 @@
                     Visualisasi</a>
                 <a href="{{ route('transaksi.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🛒 Transaksi /
                     Pembelian</a>
-                <a href="{{ route('riwayat.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜 Riwayat
+                <a href="{{ route('riwayat-transaksi.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜 Riwayat
                     Transaksi</a>
                 <a href="{{ route('barang.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📦 Kelola
                     Barang</a>
