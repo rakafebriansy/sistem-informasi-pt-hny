@@ -36,11 +36,11 @@
                 @csrf
                 <div class="mb-3">
                     <label class="block text-sm">Kode Barang</label>
-                    <input type="text" name="kode_barang" class="w-full border rounded px-2 py-1" required>
+                    <input type="text" name="kode" class="w-full border rounded px-2 py-1" required>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm">Nama Barang</label>
-                    <input type="text" name="nama_barang" class="w-full border rounded px-2 py-1" required>
+                    <input type="text" name="nama" class="w-full border rounded px-2 py-1" required>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm">Kategori</label>
@@ -85,8 +85,7 @@
                 <input type="hidden" name="id" id="edit-id">
                 <div class="mb-3">
                     <label class="block text-sm">Nama Barang</label>
-                    <input type="text" name="nama_barang" id="edit-nama" class="w-full border rounded px-2 py-1"
-                        required>
+                    <input type="text" name="nama" id="edit-nama" class="w-full border rounded px-2 py-1" required>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm">Kategori</label>
@@ -108,7 +107,6 @@
 @endsection
 
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <script>
@@ -126,7 +124,7 @@
         function editBarang(id) {
             $.get(`/barang/${id}`, function(data) {
                 $('#edit-id').val(data.id);
-                $('#edit-nama').val(data.nama_barang);
+                $('#edit-nama').val(data.nama);
                 $('#edit-kategori').val(data.kategori_id);
                 $('#form-edit').attr('action', `/barang/${id}`);
                 toggleEditModal();
@@ -224,12 +222,12 @@
                         searchable: false
                     },
                     {
-                        data: 'kode_barang',
-                        name: 'kode_barang'
+                        data: 'kode',
+                        name: 'kode'
                     },
                     {
-                        data: 'nama_barang',
-                        name: 'nama_barang'
+                        data: 'nama',
+                        name: 'nama'
                     },
                     {
                         data: 'kategori_nama',

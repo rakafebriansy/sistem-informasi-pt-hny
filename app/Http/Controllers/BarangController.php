@@ -12,7 +12,7 @@ class BarangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Barang::with('kategori')->select(['id', 'kode_barang', 'nama_barang', 'kategori_id', 'satuan', 'harga_jual', 'harga_beli', 'stok']);
+            $data = Barang::with('kategori')->select(['id', 'kode', 'nama', 'kategori_id', 'satuan', 'harga_jual', 'harga_beli', 'stok']);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('kategori_nama', function ($row) {
@@ -46,8 +46,8 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'kode_barang' => 'required|unique:barangs',
-            'nama_barang' => 'required|unique:barangs',
+            'kode' => 'required|unique:barangs',
+            'nama' => 'required|unique:barangs',
             'kategori_id' => 'required',
             'satuan' => 'required',
             'harga_jual' => 'required|numeric',
@@ -78,7 +78,7 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_barang' => 'required',
+            'nama' => 'required',
             'kategori_id' => 'required|exists:kategoris,id'
         ]);
 

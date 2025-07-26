@@ -12,8 +12,7 @@ return new class extends Migration {
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_transaksi', 20)->unique();
-            $table->date('tanggal');
+            $table->string('kode', 20)->unique();
             $table->decimal('total_harga', 15, 2)->default(0);
             $table->text('keterangan')->nullable();
             $table->timestamps();

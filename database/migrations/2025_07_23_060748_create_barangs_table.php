@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_barang', 20)->unique();
-            $table->string('nama_barang', 100);
+            $table->string('kode', 20)->unique();
+            $table->string('nama', 100);
             $table->string('satuan', 20)->nullable();
             $table->decimal('harga_beli', 12, 2)->nullable();
             $table->decimal('harga_jual', 12, 2)->nullable();
