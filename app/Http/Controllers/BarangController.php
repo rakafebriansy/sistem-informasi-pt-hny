@@ -21,11 +21,11 @@ class BarangController extends Controller
                 ->addColumn('aksi', function ($row) {
                     return '
                         <div class="flex gap-2">
-                            <button onclick="openEditModal(' . $row->id . ', \'' . e($row->nama) . '\')" style="background-color: #FFCA2C; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
+                            <button onclick="editBarang(' . $row->id . ', \'' . e($row->nama) . '\')" style="background-color: #FFCA2C; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
                                 Edit
                             </button>
 
-                            <button onclick="deleteKategori(' . $row->id . ')" style="background-color: #BB2D3B; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
+                            <button onclick="hapusBarang(' . $row->id . ')" style="background-color: #BB2D3B; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
                                 Hapus
                             </button>
 
@@ -45,7 +45,7 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'kode_barang' => 'required|unique:barangs',
             'nama_barang' => 'required|unique:barangs',
             'kategori_id' => 'required',
@@ -55,7 +55,41 @@ class BarangController extends Controller
             'stok' => 'required|numeric',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->first()
+            ], 422);
+        }
+
         Barang::create($request->all());
-        return redirect()->back()->with('success', 'Barang berhasil ditambahkan.');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Barang berhasil ditambahkan.'
+        ]);
+    }
+    public function show($id)
+    {
+        $barang = Barang::findOrFail($id);
+        return response()->json($barang);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_barang' => 'required',
+            'kategori_id' => 'required|exists:kategoris,id'
+        ]);
+
+        Barang::findOrFail($id)->update($request->all());
+
+        return response()->json(['success' => true]);
+    }
+
+    public function destroy($id)
+    {
+        Barang::findOrFail($id)->delete();
+        return response()->json(['success' => true]);
     }
 }
