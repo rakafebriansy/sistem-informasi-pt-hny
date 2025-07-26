@@ -5,24 +5,23 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Riwayat Transaksi</h1>
-
-        <div class="bg-white p-4 rounded shadow">
-            <table id="riwayat-table" class="min-w-full">
-                <thead class="bg-gray-100 text-left">
-                    <tr class="bg-gray-100">
-                        <th class="px-4 py-2">No</th>
-                        <th class="px-4 py-2">Kode Transaksi</th>
-                        <th class="px-4 py-2">Total Harga</th>
-                        <th class="px-4 py-2">Keterangan</th>
-                        <th class="px-4 py-2">Dibuat</th>
-                        <th class="px-4 py-2">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-semibold">Riwayat Transaksi</h1>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+        <table id="riwayat-table" class="min-w-full">
+            <thead class="bg-gray-100 text-left">
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2">No</th>
+                    <th class="px-4 py-2">Kode Transaksi</th>
+                    <th class="px-4 py-2">Total Harga</th>
+                    <th class="px-4 py-2">Keterangan</th>
+                    <th class="px-4 py-2">Dibuat</th>
+                    <th class="px-4 py-2">Aksi</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 
     <!-- Modal Detail -->

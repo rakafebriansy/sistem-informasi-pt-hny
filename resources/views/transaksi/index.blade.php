@@ -6,7 +6,9 @@
 
 @section('content')
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-4">Transaksi</h1>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold">Transaksi</h1>
+        </div>
 
         <!-- Form Tambah Barang ke Keranjang -->
         <div class="bg-white p-4 shadow rounded mb-4">
@@ -19,7 +21,8 @@
                         <select id="barang_id" class="w-full border rounded p-2">
                             <option value="">-- Pilih --</option>
                             @foreach ($barangs as $barang)
-                                <option value="{{ $barang->id }}" data-harga="{{ $barang->harga_jual }}">{{ $barang->nama }}
+                                <option value="{{ $barang->id }}" data-harga="{{ $barang->harga_jual }}">
+                                    {{ $barang->nama }}
                                 </option>
                             @endforeach
                         </select>

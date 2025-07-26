@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-semibold text-gray-800">Kelola Kategori</h1>
+        <h1 class="text-2xl font-semibold">Kelola Kategori</h1>
         <button onclick="toggleModal()"
             class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition">
             + Tambah Kategori
