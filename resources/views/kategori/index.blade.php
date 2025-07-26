@@ -41,11 +41,11 @@
                 <h2 class="text-xl font-semibold text-gray-800">Tambah Kategori</h2>
                 <button onclick="toggleModal()" class="text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
             </div>
-            <form method="POST" action="{{ route('kategori.store') }}">
+            <form id="form-tambah">
                 @csrf
                 <div class="mb-4">
                     <label class="block text-sm text-gray-600 mb-1">Nama Kategori</label>
-                    <input type="text" name="nama" placeholder="Masukkan nama kategori"
+                    <input type="text" name="nama" id="tambah-nama" placeholder="Masukkan nama kategori"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
@@ -117,7 +117,21 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('form-delete-' + id).submit();
+                    $.ajax({
+                        type: 'POST',
+                        url: `/kategori/${id}`,
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            _method: 'DELETE'
+                        },
+                        success: function(response) {
+                            $('#kategori-table').DataTable().ajax.reload();
+                            Swal.fire('Berhasil!', 'Kategori dihapus.', 'success');
+                        },
+                        error: function() {
+                            Swal.fire('Gagal', 'Terjadi kesalahan saat menghapus.', 'error');
+                        }
+                    });
                 }
             });
         }
@@ -134,6 +148,54 @@
             const form = document.getElementById('form-edit');
             form.action = `/kategori/${id}`;
         }
+
+        $('#form-tambah').on('submit', function(e) {
+            e.preventDefault();
+            let nama = $('#tambah-nama').val();
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('kategori.store') }}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    nama: nama
+                },
+                success: function(response) {
+                    toggleModal();
+                    $('#kategori-table').DataTable().ajax.reload();
+                    Swal.fire('Berhasil!', 'Kategori ditambahkan.', 'success');
+                    $('#form-tambah')[0].reset();
+                },
+                error: function(xhr) {
+                    let error = xhr.responseJSON?.errors?.nama?.[0] || 'Terjadi kesalahan.';
+                    Swal.fire('Gagal', error, 'error');
+                }
+            });
+        });
+
+        $('#form-edit').on('submit', function(e) {
+            e.preventDefault();
+            let nama = $('#edit-nama').val();
+            let url = this.action;
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    _method: 'PUT',
+                    nama: nama
+                },
+                success: function(response) {
+                    toggleEditModal();
+                    $('#kategori-table').DataTable().ajax.reload();
+                    Swal.fire('Berhasil!', 'Kategori diupdate.', 'success');
+                },
+                error: function(xhr) {
+                    let error = xhr.responseJSON?.errors?.nama?.[0] || 'Terjadi kesalahan.';
+                    Swal.fire('Gagal', error, 'error');
+                }
+            });
+        });
 
         $(document).ready(function() {
             $('#kategori-table').DataTable({
