@@ -10,13 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
+        Schema::create('kotas', function (Blueprint $table) {
             $table->id();
-            $table->string('kode', 20)->unique();
-            $table->decimal('total_harga', 15, 2)->default(0);
-            $table->text('keterangan')->nullable();
+            $table->foreignId('provinsi_id')->constrained('provinsis')->onDelete('cascade');
+
+            $table->string('nama');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -24,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('kotas');
     }
 };
