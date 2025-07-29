@@ -1,21 +1,21 @@
 @extends('layouts.authorized')
 
 @section('title')
-    PT HNY - Kategori
+    PT HNY - Provinsi
 @endsection
 
 @section('content')
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-semibold">Kelola Kategori</h1>
-        <button onclick="toggleModal()"
+        <h1 class="text-2xl font-semibold">Kelola Provinsi</h1>
+        <button onclick="toggleCreateModal()"
             class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition">
-            + Tambah Kategori
+            + Tambah Provinsi
         </button>
     </div>
 
     <!-- Tabel -->
     <div class="overflow-x-auto bg-white rounded-lg shadow p-4">
-        <table id="kategori-table" class="min-w-full text-sm text-left">
+        <table id="provinsi-table" class="min-w-full text-sm text-left">
             <thead class="bg-gray-100 text-gray-700 uppercase">
                 <tr>
                     <th class="px-4 py-3 border-b">No</th>
@@ -30,19 +30,20 @@
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-800">Tambah Kategori</h2>
-                <button onclick="toggleModal()" class="text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
+                <h2 class="text-xl font-semibold text-gray-800">Tambah Provinsi</h2>
+                <button onclick="toggleCreateModal()"
+                    class="text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
             </div>
             <form id="form-tambah">
                 @csrf
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Nama Kategori</label>
-                    <input type="text" name="nama" id="tambah-nama" placeholder="Masukkan nama kategori"
+                    <label class="block text-sm text-gray-600 mb-1">Nama Provinsi</label>
+                    <input type="text" name="nama" id="tambah-nama" placeholder="Masukkan nama kota"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
                 <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="toggleModal()"
+                    <button type="button" onclick="toggleCreateModal()"
                         class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
                         Batal
                     </button>
@@ -58,7 +59,7 @@
     <div id="modal-edit" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-800">Edit Kategori</h2>
+                <h2 class="text-xl font-semibold text-gray-800">Edit Provinsi</h2>
                 <button onclick="toggleEditModal()"
                     class="text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
             </div>
@@ -66,7 +67,7 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Nama Kategori</label>
+                    <label class="block text-sm text-gray-600 mb-1">Nama Provinsi</label>
                     <input type="text" name="nama" id="edit-nama"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
@@ -89,13 +90,78 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <script>
-        function toggleModal() {
+        function toggleCreateModal() {
             const modal = document.getElementById('modal');
             modal.classList.toggle('hidden');
             modal.classList.toggle('flex');
         }
 
-        function deleteKategori(id) {
+        function toggleEditModal() {
+            const modal = document.getElementById('modal-edit');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function editProvinsi(id) {
+            $.get(`/provinsi/${id}`, function(data) {
+                $('#edit-id').val(data.id);
+                $('#edit-nama').val(data.nama);
+                $('#form-edit').attr('action', `/provinsi/${id}`);
+                toggleEditModal();
+            });
+        }
+
+        $('#form-tambah').on('submit', function(e) {
+            e.preventDefault();
+            let formData = $(this).serialize();
+
+            $.ajax({
+                url: '{{ route('provinsi.store') }}',
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    $('#provinsi-table').DataTable().ajax.reload();
+                    toggleCreateModal();
+                    $('#form-tambah')[0].reset();
+
+                    Swal.fire('Berhasil!', 'Provinsi berhasil ditambahkan.', 'success');
+                },
+                error: function(xhr) {
+                    let msg = 'Gagal menambahkan provinsi.';
+                    if (xhr.status === 422) {
+                        const errors = Object.values(xhr.responseJSON.errors)
+                            .map(arr => arr.join(', '))
+                            .join('<br>');
+                        msg = errors;
+                    }
+
+                    Swal.fire('Gagal', msg, 'error');
+                }
+            });
+        });
+
+
+        $('#form-edit').on('submit', function(e) {
+            e.preventDefault();
+            var action = $(this).attr('action');
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: action,
+                type: 'POST',
+                data: formData,
+                success: function() {
+                    toggleEditModal();
+                    $('#provinsi-table').DataTable().ajax.reload();
+                    Swal.fire('Berhasil', 'Provinsi berhasil diperbarui.', 'success');
+                },
+                error: function() {
+                    Swal.fire('Gagal', 'Gagal menyimpan perubahan.', 'error');
+                }
+            });
+        });
+
+        function deleteProvinsi(id) {
             Swal.fire({
                 title: 'Yakin hapus?',
                 text: "Data tidak dapat dikembalikan!",
@@ -109,14 +175,14 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'POST',
-                        url: `/kategori/${id}`,
+                        url: `/provinsi/${id}`,
                         data: {
                             _token: '{{ csrf_token() }}',
                             _method: 'DELETE'
                         },
                         success: function(response) {
-                            $('#kategori-table').DataTable().ajax.reload();
-                            Swal.fire('Berhasil!', 'Kategori dihapus.', 'success');
+                            $('#provinsi-table').DataTable().ajax.reload();
+                            Swal.fire('Berhasil!', 'Provinsi dihapus.', 'success');
                         },
                         error: function() {
                             Swal.fire('Gagal', 'Terjadi kesalahan saat menghapus.', 'error');
@@ -126,72 +192,11 @@
             });
         }
 
-        function toggleEditModal() {
-            const modal = document.getElementById('modal-edit');
-            modal.classList.toggle('hidden');
-            modal.classList.toggle('flex');
-        }
-
-        function openEditModal(id, nama) {
-            toggleEditModal();
-            document.getElementById('edit-nama').value = nama;
-            const form = document.getElementById('form-edit');
-            form.action = `/kategori/${id}`;
-        }
-
-        $('#form-tambah').on('submit', function(e) {
-            e.preventDefault();
-            let nama = $('#tambah-nama').val();
-            $.ajax({
-                type: 'POST',
-                url: "{{ route('kategori.store') }}",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    nama: nama
-                },
-                success: function(response) {
-                    toggleModal();
-                    $('#kategori-table').DataTable().ajax.reload();
-                    Swal.fire('Berhasil!', 'Kategori ditambahkan.', 'success');
-                    $('#form-tambah')[0].reset();
-                },
-                error: function(xhr) {
-                    let error = xhr.responseJSON?.errors?.nama?.[0] || 'Terjadi kesalahan.';
-                    Swal.fire('Gagal', error, 'error');
-                }
-            });
-        });
-
-        $('#form-edit').on('submit', function(e) {
-            e.preventDefault();
-            let nama = $('#edit-nama').val();
-            let url = this.action;
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    _method: 'PUT',
-                    nama: nama
-                },
-                success: function(response) {
-                    toggleEditModal();
-                    $('#kategori-table').DataTable().ajax.reload();
-                    Swal.fire('Berhasil!', 'Kategori diupdate.', 'success');
-                },
-                error: function(xhr) {
-                    let error = xhr.responseJSON?.errors?.nama?.[0] || 'Terjadi kesalahan.';
-                    Swal.fire('Gagal', error, 'error');
-                }
-            });
-        });
-
         $(document).ready(function() {
-            $('#kategori-table').DataTable({
+            $('#provinsi-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('kategori.index') }}',
+                ajax: '{{ route('provinsi.index') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',

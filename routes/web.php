@@ -1,14 +1,10 @@
 <?php
 
-use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\RiwayatTransaksiController;
-use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\KotaController;
+use App\Http\Controllers\ProvinsiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-Route::resource('kategori', KategoriController::class)->only(['index', 'store', 'update', 'destroy']);
-Route::resource('barang', BarangController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-Route::resource('/transaksi', TransaksiController::class)->only(['index','store']);
-Route::resource('/riwayat-transaksi', RiwayatTransaksiController::class)->only(['index','show']);
+Route::resource('provinsi', ProvinsiController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+Route::resource('kota', KotaController::class)->only(['index', 'store', 'show', 'update', 'destroy']);

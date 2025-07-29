@@ -16,13 +16,13 @@
             <nav class="flex flex-col p-4 space-y-2">
                 <a href="{{ route('dashboard') }}" class="hover:bg-gray-700 p-2 rounded transition">📊 Dasbor
                     Visualisasi</a>
-                <a href="{{ route('transaksi.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🛒 Transaksi /
-                    Pembelian</a>
-                <a href="{{ route('riwayat-transaksi.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜 Riwayat
-                    Transaksi</a>
-                <a href="{{ route('barang.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📦 Kelola
-                    Barang</a>
-                <a href="{{ route('kategori.index') }}" class="hover:bg-gray-700 p-2 rounded">🏷️ Kelola Kategori</a>
+                {{-- <a href="{{ route('transaksi.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🛒 Transaksi /
+                    Pembelian</a> --}}
+                {{-- <a href="{{ route('riwayat-transaksi.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜 Riwayat
+                    Transaksi</a> --}}
+                <a href="{{ route('kota.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🏢 Kelola
+                    Kota</a>
+                <a href="{{ route('provinsi.index') }}" class="hover:bg-gray-700 p-2 rounded">🌏 Kelola Provinsi</a>
             </nav>
         </aside>
 

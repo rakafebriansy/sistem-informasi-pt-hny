@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Kota extends Model
 {
     protected $fillable = [
-        'kota',
+        'nama',
         'provinsi_id',
     ];
+
+    public function provinsi() 
+    {
+        return $this->belongsTo(Provinsi::class,'provinsi_id','id');
+    }
 }
