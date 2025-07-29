@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kota;
-use App\Models\Provinsi;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\DataTables;
 
-class KotaController extends Controller
+class LayananController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,24 +14,21 @@ class KotaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Kota::with('provinsi')->select(['id', 'nama', 'provinsi_id', 'created_at']);
+            $data = Layanan::select(['id', 'nama', 'estimasi_hari', 'tarif_per_kg', 'created_at']);
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('provinsi_nama', function ($row) {
-                    return $row->provinsi->nama ?? '';
-                })
                 ->addColumn('aksi', function ($row) {
                     return '
                         <div class="flex gap-2">
-                            <button onclick="editKota(' . $row->id . ')" style="background-color: #FFCA2C; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
+                            <button onclick="editLayanan(' . $row->id . ')" style="background-color: #FFCA2C; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
                                 Edit
                             </button>
 
-                            <button onclick="deleteKota(' . $row->id . ')" style="background-color: #BB2D3B; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
+                            <button onclick="deleteLayanan(' . $row->id . ')" style="background-color: #BB2D3B; color: white; padding-left: 0.5rem; padding-right: 0.5rem; padding-top: 0.25rem; padding-bottom: 0.25rem; border-radius: 0.25rem;">
                                 Hapus
                             </button>
 
-                            <form id="form-delete-' . $row->id . '" method="POST" action="' . route('kota.destroy', $row->id) . '" style="display:none;">
+                            <form id="form-delete-' . $row->id . '" method="POST" action="' . route('layanan.destroy', $row->id) . '" style="display:none;">
                                 ' . csrf_field() . method_field('DELETE') . '
                             </form>
                         </div>';
@@ -41,9 +37,7 @@ class KotaController extends Controller
                 ->make(true);
         }
 
-        $provinsiList = Provinsi::all();
-
-        return view('kota.index', compact('provinsiList'));
+        return view('layanan.index');
     }
 
     /**
@@ -60,16 +54,17 @@ class KotaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|unique:kotas,nama',
-            'provinsi_id' => 'required|exists:provinsis,id',
+            'nama' => 'required|unique:layanans,nama',
+            'estimasi_hari' => 'required',
+            'tarif_per_kg' => 'required',
         ]);
 
-        $kota = Kota::create($request->all());
+        $layanan = Layanan::create($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => 'Kota berhasil ditambahkan',
-            'data' => $kota,
+            'message' => 'Layanan berhasil ditambahkan',
+            'data' => $layanan,
         ]);
     }
 
@@ -78,8 +73,8 @@ class KotaController extends Controller
      */
     public function show(string $id)
     {
-        $kota = Kota::findOrFail($id);
-        return response()->json($kota);
+        $layanan = Layanan::findOrFail($id);
+        return response()->json($layanan);
     }
 
     /**
@@ -95,14 +90,15 @@ class KotaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $kota = Kota::findOrFail($id);
+        $layanan = Layanan::findOrFail($id);
 
         $request->validate([
-            'nama' => 'required|unique:kotas,nama,' . $kota->id,
-            'provinsi_id' => 'required|exists:provinsis,id'
+            'nama' => 'required|unique:layanans,nama,' . $layanan->id,
+            'estimasi_hari' => 'required',
+            'tarif_per_kg' => 'required',
         ]);
 
-        $kota->update($request->all());
+        $layanan->update($request->all());
 
         return response()->json(['success' => true]);
     }
@@ -112,7 +108,7 @@ class KotaController extends Controller
      */
     public function destroy(string $id)
     {
-        Kota::findOrFail($id)->delete();
+        Layanan::findOrFail($id)->delete();
         return response()->json(['success' => true]);
     }
 }
