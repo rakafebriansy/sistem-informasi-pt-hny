@@ -16,10 +16,14 @@
             <nav class="flex flex-col p-4 space-y-2">
                 <a href="{{ route('dashboard') }}" class="hover:bg-gray-700 p-2 rounded transition">📊 Dasbor
                     Visualisasi</a>
-                <a href="{{ route('pengiriman.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🚚 Pengiriman</a>
-                <a href="{{ route('layanan.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜 Kelola Layanan</a>
+                <a href="{{ route('pengiriman.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🚚
+                    Pengiriman</a>
                 <a href="{{ route('kota.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🏢 Kelola
                     Kota</a>
+                <a href="{{ route('layanan.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜 Kelola
+                    Layanan</a>
+                <a href="{{ route('pelanggan.index') }}" class="hover:bg-gray-700 p-2 rounded transition">👤 Kelola
+                    Pelanggan</a>
                 <a href="{{ route('provinsi.index') }}" class="hover:bg-gray-700 p-2 rounded">🌏 Kelola Provinsi</a>
             </nav>
         </aside>
@@ -31,7 +35,7 @@
 
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        
+
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @stack('scripts')

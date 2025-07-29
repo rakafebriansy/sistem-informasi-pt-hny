@@ -1,27 +1,27 @@
 @extends('layouts.authorized')
 
 @section('title')
-    PT HNY - Layanan
+    PT HNY - Pelanggan
 @endsection
 
 @section('content')
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-semibold">Kelola Layanan</h1>
+        <h1 class="text-2xl font-semibold">Kelola Pelanggan</h1>
         <button onclick="toggleCreateModal()"
             class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition">
-            + Tambah Layanan
+            + Tambah Pelanggan
         </button>
     </div>
 
     <!-- Tabel -->
     <div class="overflow-x-auto bg-white rounded-lg shadow p-4">
-        <table id="layanan-table" class="min-w-full text-sm text-left">
+        <table id="pelanggan-table" class="min-w-full text-sm text-left">
             <thead class="bg-gray-100 text-gray-700 uppercase">
                 <tr>
                     <th class="px-4 py-3 border-b">No</th>
                     <th class="px-4 py-3 border-b">Nama</th>
-                    <th class="px-4 py-3 border-b">Estimasi Hari</th>
-                    <th class="px-4 py-3 border-b">Tarif per Kg</th>
+                    <th class="px-4 py-3 border-b">Alamat</th>
+                    <th class="px-4 py-3 border-b">Nomor Telepon</th>
                     <th class="px-4 py-3 border-b">Aksi</th>
                 </tr>
             </thead>
@@ -32,28 +32,27 @@
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-800">Tambah Layanan</h2>
+                <h2 class="text-xl font-semibold text-gray-800">Tambah Pelanggan</h2>
                 <button onclick="toggleCreateModal()"
                     class="text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
             </div>
             <form id="form-tambah">
                 @csrf
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Nama Layanan</label>
+                    <label class="block text-sm text-gray-600 mb-1">Nama Pelanggan</label>
                     <input type="text" name="nama" id="tambah-nama" placeholder="Masukkan nama kota"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Estimasi Hari</label>
-                    <input type="number" name="estimasi_hari" id="tambah-estimasi-hari"
-                        placeholder="Masukkan estimasi hari"
+                    <label class="block text-sm text-gray-600 mb-1">Alamat</label>
+                    <input type="type" name="alamat" id="tambah-alamat" placeholder="Masukkan alamat"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Tarif per Kg</label>
-                    <input type="number" name="tarif_per_kg" id="tambah-tarif-per-kg" placeholder="Masukkan tarif per kg"
+                    <label class="block text-sm text-gray-600 mb-1">Nomor Telepon</label>
+                    <input type="type" name="no_hp" id="tambah-no-hp" placeholder="Masukkan nomor telepon"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
@@ -74,7 +73,7 @@
     <div id="modal-edit" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold text-gray-800">Edit Layanan</h2>
+                <h2 class="text-xl font-semibold text-gray-800">Edit Pelanggan</h2>
                 <button onclick="toggleEditModal()"
                     class="text-gray-400 hover:text-red-500 text-xl font-bold">&times;</button>
             </div>
@@ -82,21 +81,20 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Nama Layanan</label>
+                    <label class="block text-sm text-gray-600 mb-1">Nama Pelanggan</label>
                     <input type="text" name="nama" id="edit-nama"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Estimasi Hari</label>
-                    <input type="number" name="estimasi_hari" id="edit-estimasi-hari"
-                        placeholder="Masukkan estimasi hari"
+                    <label class="block text-sm text-gray-600 mb-1">Alamat</label>
+                    <input type="type" name="alamat" id="edit-alamat" placeholder="Masukkan alamat"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm text-gray-600 mb-1">Tarif per Kg</label>
-                    <input type="number" name="tarif_per_kg" id="edit-tarif-per-kg" placeholder="Masukkan tarif per kg"
+                    <label class="block text-sm text-gray-600 mb-1">Nomor Telepon</label>
+                    <input type="type" name="no_hp" id="edit-no-hp" placeholder="Masukkan nomor telepon"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required>
                 </div>
@@ -130,13 +128,13 @@
             modal.classList.toggle('flex');
         }
 
-        function editLayanan(id) {
-            $.get(`/layanan/${id}`, function(data) {
+        function editPelanggan(id) {
+            $.get(`/pelanggan/${id}`, function(data) {
                 $('#edit-id').val(data.id);
                 $('#edit-nama').val(data.nama);
-                $('#edit-estimasi-hari').val(data.estimasi_hari);
-                $('#edit-tarif-per-kg').val(data.tarif_per_kg);
-                $('#form-edit').attr('action', `/layanan/${id}`);
+                $('#edit-alamat').val(data.alamat);
+                $('#edit-no-hp').val(data.no_hp);
+                $('#form-edit').attr('action', `/pelanggan/${id}`);
                 toggleEditModal();
             });
         }
@@ -146,18 +144,18 @@
             let formData = $(this).serialize();
 
             $.ajax({
-                url: '{{ route('layanan.store') }}',
+                url: '{{ route('pelanggan.store') }}',
                 method: 'POST',
                 data: formData,
                 success: function(response) {
-                    $('#layanan-table').DataTable().ajax.reload();
+                    $('#pelanggan-table').DataTable().ajax.reload();
                     toggleCreateModal();
                     $('#form-tambah')[0].reset();
 
-                    Swal.fire('Berhasil!', 'Layanan berhasil ditambahkan.', 'success');
+                    Swal.fire('Berhasil!', 'Pelanggan berhasil ditambahkan.', 'success');
                 },
                 error: function(xhr) {
-                    let msg = 'Gagal menambahkan layanan.';
+                    let msg = 'Gagal menambahkan pelanggan.';
                     if (xhr.status === 422) {
                         const errors = Object.values(xhr.responseJSON.errors)
                             .map(arr => arr.join(', '))
@@ -182,8 +180,8 @@
                 data: formData,
                 success: function() {
                     toggleEditModal();
-                    $('#layanan-table').DataTable().ajax.reload();
-                    Swal.fire('Berhasil', 'Layanan berhasil diperbarui.', 'success');
+                    $('#pelanggan-table').DataTable().ajax.reload();
+                    Swal.fire('Berhasil', 'Pelanggan berhasil diperbarui.', 'success');
                 },
                 error: function() {
                     Swal.fire('Gagal', 'Gagal menyimpan perubahan.', 'error');
@@ -191,7 +189,7 @@
             });
         });
 
-        function deleteLayanan(id) {
+        function deletePelanggan(id) {
             Swal.fire({
                 title: 'Yakin hapus?',
                 text: "Data tidak dapat dikembalikan!",
@@ -205,14 +203,14 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'POST',
-                        url: `/layanan/${id}`,
+                        url: `/pelanggan/${id}`,
                         data: {
                             _token: '{{ csrf_token() }}',
                             _method: 'DELETE'
                         },
                         success: function(response) {
-                            $('#layanan-table').DataTable().ajax.reload();
-                            Swal.fire('Berhasil!', 'Layanan dihapus.', 'success');
+                            $('#pelanggan-table').DataTable().ajax.reload();
+                            Swal.fire('Berhasil!', 'Pelanggan dihapus.', 'success');
                         },
                         error: function() {
                             Swal.fire('Gagal', 'Terjadi kesalahan saat menghapus.', 'error');
@@ -223,10 +221,10 @@
         }
 
         $(document).ready(function() {
-            $('#layanan-table').DataTable({
+            $('#pelanggan-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('layanan.index') }}',
+                ajax: '{{ route('pelanggan.index') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -238,12 +236,12 @@
                         name: 'nama'
                     },
                     {
-                        data: 'estimasi_hari',
-                        name: 'estimasi_hari'
+                        data: 'alamat',
+                        name: 'alamat'
                     },
                     {
-                        data: 'tarif_per_kg',
-                        name: 'tarif_per_kg'
+                        data: 'no_hp',
+                        name: 'no_hp'
                     },
                     {
                         data: 'aksi',
