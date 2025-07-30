@@ -27,6 +27,7 @@
                 <a href="{{ route('pelanggan.index') }}" class="hover:bg-gray-700 p-2 rounded transition">👤 Kelola
                     Pelanggan</a>
                 <a href="{{ route('provinsi.index') }}" class="hover:bg-gray-700 p-2 rounded">🌏 Kelola Provinsi</a>
+                <a href="{{ route('logout') }}" class="hover:bg-gray-700 p-2 rounded">Logout</a>
             </nav>
         </aside>
 
