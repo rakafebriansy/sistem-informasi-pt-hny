@@ -18,9 +18,11 @@
                     Visualisasi</a>
                 <a href="{{ route('pengiriman.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🚚
                     Pengiriman</a>
+                <a href="{{ route('riwayat-pengiriman.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜
+                    Riwayat Pengiriman</a>
                 <a href="{{ route('kota.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🏢 Kelola
                     Kota</a>
-                <a href="{{ route('layanan.index') }}" class="hover:bg-gray-700 p-2 rounded transition">📜 Kelola
+                <a href="{{ route('layanan.index') }}" class="hover:bg-gray-700 p-2 rounded transition">🏷️ Kelola
                     Layanan</a>
                 <a href="{{ route('pelanggan.index') }}" class="hover:bg-gray-700 p-2 rounded transition">👤 Kelola
                     Pelanggan</a>

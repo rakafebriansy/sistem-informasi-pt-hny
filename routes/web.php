@@ -13,4 +13,5 @@ Route::resource('pelanggan', PelangganController::class)->only(['index', 'store'
 Route::resource('provinsi', ProvinsiController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
 Route::resource('kota', KotaController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
 Route::resource('layanan', LayananController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
-Route::resource('pengiriman', PengirimanController::class)->only(['index', 'store']);
+Route::resource('pengiriman', PengirimanController::class)->only(['index', 'store','show']);
+Route::get('/riwayat-pengiriman', [PengirimanController::class, 'showRiwayat'])->name('riwayat-pengiriman.index');

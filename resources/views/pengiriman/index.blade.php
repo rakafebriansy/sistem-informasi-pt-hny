@@ -8,7 +8,7 @@
     <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
         <div class="flex justify-between mb-4 items-center">
             <h2 class="text-xl font-semibold">Form Transaksi Pengiriman</h2>
-            <button type="button" onclick="openModalPelanggan('pengirim_id')"
+            <button type="button" onclick="openModalPelanggan()"
                 class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">+ Tambah Pelanggan</button>
         </div>
         <form id="form-pengiriman" class="space-y-4">
@@ -103,15 +103,18 @@
                 @csrf
                 <div>
                     <label class="block mb-1 font-medium">Nama Pelanggan</label>
-                    <input type="text" name="nama" class="w-full border rounded px-3 py-2" required>
+                    <input type="text" name="nama" class="w-full border rounded px-3 py-2" placeholder="Masukkan nama"
+                        required>
                 </div>
                 <div>
                     <label class="block mb-1 font-medium">Alamat</label>
-                    <input type="text" name="alamat" class="w-full border rounded px-3 py-2" required>
+                    <input type="text" name="alamat" class="w-full border rounded px-3 py-2"
+                        placeholder="Masukkan alamat" required>
                 </div>
                 <div>
                     <label class="block mb-1 font-medium">Nomor Telepon</label>
-                    <input type="text" name="no_hp" class="w-full border rounded px-3 py-2" required>
+                    <input type="text" name="no_hp" class="w-full border rounded px-3 py-2"
+                        placeholder="Masukkan nomor telepon" required>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="tutupModalPelanggan()"
@@ -126,10 +129,7 @@
 
 @push('scripts')
     <script>
-        let dropdownTarget = '';
-
-        function openModalPelanggan(dropdownId) {
-            dropdownTarget = dropdownId;
+        function openModalPelanggan() {
             $('#modalPelanggan').removeClass('hidden');
         }
 
@@ -140,20 +140,36 @@
 
         $('#form-tambah-pelanggan').submit(function(e) {
             e.preventDefault();
+
+            const submitBtn = $(this).find('button[type="submit"]');
+
+            submitBtn.prop('disabled', true).html(`
+                <svg class="animate-spin h-4 w-4 mr-2 inline-block text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+                    </path>
+                </svg> Menyimpan...
+            `);
+
             $.ajax({
-                url: "{{ route('pelanggan.store') }}", // pastikan route pelanggan.store sudah ada
+                url: "{{ route('pelanggan.store') }}",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(res) {
-                    // Tambahkan ke dropdown
-                    const option = new Option(res.nama, res.id, true, true);
-                    $('#' + dropdownTarget).append(option).trigger('change');
+                    const option1 = new Option(res.nama, res.id, false, false);
+                    const option2 = new Option(res.nama, res.id, false, false);
+
+                    $('#pengirim_id').append(option1);
+                    $('#penerima_id').append(option2);
+
                     tutupModalPelanggan();
 
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil',
-                        text: 'Pelanggan baru ditambahkan dan dipilih.'
+                        text: 'Pelanggan baru ditambahkan.'
                     });
                 },
                 error: function(xhr) {
@@ -168,9 +184,14 @@
                         title: 'Gagal Menambah Pelanggan',
                         text: pesan
                     });
+                },
+                complete: function() {
+                    submitBtn.prop('disabled', false).html('Simpan');
                 }
             });
         });
+
+
 
         $('#form-pengiriman').submit(function(e) {
             e.preventDefault();
@@ -180,6 +201,8 @@
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(res) {
+                    console.log(res);
+                    console.log(res.data);
                     Swal.fire({
                         icon: 'success',
                         title: 'Berhasil',
@@ -188,6 +211,7 @@
                 },
                 error: function(xhr) {
                     let errors = xhr.responseJSON.errors;
+                    console.log(xhr);
                     let pesan = '';
                     for (let key in errors) {
                         pesan += errors[key][0] + '\n';
@@ -195,7 +219,7 @@
 
                     Swal.fire({
                         icon: 'error',
-                        title: 'Validasi Gagal',
+                        title: 'Pencatatan Pengiriman Gagal',
                         text: pesan
                     });
                 }

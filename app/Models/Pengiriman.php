@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengiriman extends Model
 {
+    protected $table = 'pengirimans';
     protected $fillable = [
         'kode',
         'tanggal',
         'berat',
-        'ongkos_kirim',
+        'ongkir',
         'total_bayar',
         'status',
         'pengirim_id',

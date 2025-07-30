@@ -15,9 +15,9 @@ return new class extends Migration {
             $table->string('kode')->unique();
             $table->dateTime('tanggal');
             $table->decimal('berat', 8, 2);
-            $table->decimal('ongkos_kirim', 12, 2);
+            $table->decimal('ongkir', 12, 2);
             $table->decimal('total_bayar', 15, 2);
-            $table->enum('status',['dikemas','dikirim','diterima','dibatalkan'])->default('dikemas');
+            $table->enum('status', ['dikemas', 'dikirim', 'diterima', 'dibatalkan'])->default('dikemas');
 
             $table->foreignId('pengirim_id')->constrained('pelanggans')->onDelete('cascade');
             $table->foreignId('penerima_id')->constrained('pelanggans')->onDelete('cascade');
