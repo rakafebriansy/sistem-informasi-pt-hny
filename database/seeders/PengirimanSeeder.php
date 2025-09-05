@@ -47,7 +47,7 @@ class PengirimanSeeder extends Seeder
             $total_bayar = $ongkir + $biaya_tambahan;
 
             Pengiriman::create([
-                'kode' => 'TRX-' . now()->format('YmdHis') . '-' . $i,
+                'kode' => now()->format('YmdHis') . '-' . $i,
                 'tanggal' => Carbon::now()->subDays(rand(0, 30))->addMinutes(rand(0, 1440)),
                 'berat' => $berat,
                 'ongkir' => $ongkir,

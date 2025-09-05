@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('pengirimans', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
+            $table->string('kode',20)->unique();
             $table->dateTime('tanggal');
             $table->decimal('berat', 8, 2);
             $table->decimal('ongkir', 12, 2);

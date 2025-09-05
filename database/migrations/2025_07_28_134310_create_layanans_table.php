@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('layanans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama',30);
             $table->integer('estimasi_hari');
             $table->decimal('tarif_per_kg', 10, 2);
             $table->timestamps();
